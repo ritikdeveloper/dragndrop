@@ -1,0 +1,25 @@
+<div class="parameter-list">
+  <h3>Parameters</h3>
+  <p class="instructions">Drag parameters onto the PDF</p>
+  
+  <div class="parameter-items">
+    <div *ngFor="let param of paginatedParameters" 
+         class="parameter-item" 
+         draggable="true"
+         (dragstart)="onDragStart($event, param)">
+      <span class="parameter-circle"></span>
+      {{ param.descrizione }}
+    </div>
+  </div>
+  
+  <div class="pagination" *ngIf="parameters.length > itemsPerPage">
+    <button (click)="changePage(-1)" [disabled]="currentPage === 0">
+      «
+    </button>
+    <span>Page {{ currentPage + 1 }}</span>
+    <button (click)="changePage(1)" 
+            [disabled]="(currentPage + 1) * itemsPerPage >= parameters.length">
+      »
+    </button>
+  </div>
+</div>

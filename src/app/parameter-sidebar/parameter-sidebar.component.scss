@@ -1,0 +1,77 @@
+.parameter-list {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 10px;
+}
+
+h3 {
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+
+.instructions {
+  color: #666;
+  font-size: 0.9em;
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.parameter-items {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.parameter-item {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  margin-bottom: 5px;
+  background-color: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  cursor: grab;
+  
+  &:hover {
+    background-color: #f0f0f0;
+  }
+  
+  &:active {
+    cursor: grabbing;
+  }
+}
+
+.parameter-circle {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  background-color: #007bff;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #eee;
+  
+  button {
+    padding: 3px 8px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    
+    &:hover:not(:disabled) {
+      background-color: #e0e0e0;
+    }
+  }
+}

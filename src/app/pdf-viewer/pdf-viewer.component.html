@@ -1,0 +1,70 @@
+<div class="container">
+  <div class="header">
+    <div class="controls" *ngIf="pdfLoaded">
+      <button class="btn" (click)="prevPage()" [disabled]="currentPage === 1">Previous</button>
+      <span>Page {{ currentPage }} of {{ totalPages }}</span>
+      <button class="btn" (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+      <button class="btn" (click)="zoomIn()">Zoom In</button>
+      <button class="btn" (click)="zoomOut()">Zoom Out</button>
+      <button class="btn btn-primary" (click)="showCoordinates()">Show Coordinates</button>
+      <button class="btn btn-danger" (click)="clearPdf()">Clear PDF</button>
+    </div>
+    
+    <div class="upload-controls" *ngIf="!pdfLoaded">
+      <button class="btn btn-primary" (click)="triggerFileInput()">Upload PDF</button>
+      <input #fileInput type="file" accept="application/pdf" (change)="onFileSelected($event)" style="display: none;">
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="sidebar" *ngIf="pdfLoaded">
+      <app-parameter-sidebar [parameters]="parameters"></app-parameter-sidebar>
+    </div>
+
+    <div class="pdf-area" 
+         [class.pdf-loaded]="pdfLoaded"
+         [class.dragging-file]="isDraggingFile"
+         (dragover)="pdfLoaded ? onDragOver($event) : onFileDragOver($event)"
+         (dragleave)="onFileDragLeave($event)"
+         (drop)="pdfLoaded ? onParameterDrop($event) : onFileDrop($event)">
+      
+      <!-- PDF upload prompt -->
+      <div class="upload-prompt" *ngIf="!pdfLoaded && !isLoading">
+        <div class="upload-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="17 8 12 3 7 8"></polyline>
+            <line x1="12" y1="3" x2="12" y2="15"></line>
+          </svg>
+        </div>
+        <h3>Drag & Drop PDF here</h3>
+        <p>or</p>
+        <button class="btn btn-primary" (click)="triggerFileInput()">Browse Files</button>
+      </div>
+      
+      <!-- Loading indicator -->
+      <div class="loading-indicator" *ngIf="isLoading">
+        <div class="spinner"></div>
+        <p>Loading PDF...</p>
+      </div>
+      
+      <!-- Error message -->
+      <div class="error-message" *ngIf="errorMessage">
+        <p>{{ errorMessage }}</p>
+      </div>
+      
+      <!-- PDF canvas -->
+      <canvas #pdfCanvas *ngIf="pdfLoaded"></canvas>
+      
+      <!-- Placeholders -->
+      <ng-container *ngFor="let ph of placeholders">
+        <div class="placeholder"
+             *ngIf="ph.page === currentPage && pdfLoaded"
+             [style.left.px]="ph.x * scale"
+             [style.top.px]="ph.y * scale">
+          {{ ph.descrizione }}
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>
